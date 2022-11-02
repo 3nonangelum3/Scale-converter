@@ -10,7 +10,10 @@ Number* Parser::parseNumber(string input, bool &validInput)
 		if (input[i] == '(')
 		{
 			scaleStarted = true;
+			continue;
 		}
+		if (input[i] == ')')
+			continue;
 		if (scaleStarted)
 		{
 			scale += input[i];
@@ -19,11 +22,14 @@ Number* Parser::parseNumber(string input, bool &validInput)
 			number += input[i];
 		}
 	}
+	if (scale == "") {
+		scale = "10";
+	}
 	if (Validator::valideScaleInput(stoi(scale)))
 	{
-		Number num(number, stoi(scale));
-		validInput &= Validator::validateNumberInput(&num);
-		return &num;
+		Number* num = new Number(number, stoi(scale));
+		validInput |= Validator::validateNumberInput(num);
+		return num;
 	}
 	else {
 		validInput = false;

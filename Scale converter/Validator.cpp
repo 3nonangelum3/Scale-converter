@@ -6,10 +6,7 @@ bool Validator::validateNumberInput(Number* Number) {
 	for (int i = 0; i < number.length(); i++)
 	{
 		if (number[i] < '0' || (number[i] > '9' && number[i] < 'A') || number[i] > 'Z') return false;
-	}
-	for (int i = 0; i < number.length(); i++)
-	{
-		if (Ascii::convertToChar(number[i]) >= Number->getScale()) return false;
+		if (Ascii::toTenScale(number[i]) >= Number->getScale()) return false;
 	}
 	return true;
 }

@@ -11,9 +11,10 @@ public:
 	Number(int number);
 	Number(string number, int scale);
 	Number convert(int newScale);
-	static Number convert(Number* number, int newScale);
+	static Number* convert(Number* number, int newScale);
 	int toTenScale();
-	string getNumber() { return number + string("(") + string(to_string(this->scale)) + string(")"); }
+	string getNumber() { return number; }
+	string toString() { return this->number + "(" + to_string(this->scale) + ")"; }
 	int getScale() { return scale; }
 	Number operator+(Number number);
 	Number operator-(Number number);

@@ -4,13 +4,13 @@
 
 using std::to_string;
 
-Number::Number() : number(0), scale(10) {}
+Number::Number() : Number(0) {}
 Number::Number(int number) : number(to_string(number)), scale(10) {}
 Number::Number(string number, int scale) : number(number), scale(scale) {}
 
 string reverseString(string input) {
 	std::string answer = "";
-	for (int i = input.length() - 1; i < input.length(); i--)
+	for (size_t i = input.length() - 1; i < input.length(); i--)
 	{
 		answer += input[i];
 	}
@@ -25,9 +25,11 @@ Number Number::convert(int newScale)
 		answer += Ascii::convertToChar(num % newScale);
 		num /= newScale;
 	}
+	this->number = reverseString(answer);
+	this->scale = newScale;
 	return Number(reverseString(answer), newScale);
 }
-Number Number::convert(Number* number, int newScale)
+Number* Number::convert(Number* number, int newScale)
 {
 	string answer = "";
 	int num = number->toTenScale();
@@ -35,7 +37,7 @@ Number Number::convert(Number* number, int newScale)
 		answer += Ascii::convertToChar(num % newScale);
 		num /= newScale;
 	}
-	return Number(reverseString(answer), newScale);
+	return new Number(reverseString(answer), newScale);
 }
 
 int Number::toTenScale()
@@ -53,7 +55,7 @@ Number Number::operator+(Number number)
 	int result = this->toTenScale() + number.toTenScale();
 	if (this->scale == number.scale)
 	{
-		return Number(Number::convert(&Number(result), scale).getNumber(), scale);
+		return Number(Number::convert(new Number(result), scale)->getNumber(), scale);
 	}
 	else {
 		return Number(result);
@@ -64,7 +66,7 @@ Number Number::operator-(Number number)
 	int result = this->toTenScale() - number.toTenScale();
 	if (this->scale == number.scale)
 	{
-		return Number(Number::convert(&Number(result), scale).getNumber(), scale);
+		return Number(Number::convert(new Number(result), scale)->getNumber(), scale);
 	}
 	else {
 		return Number(result);
@@ -75,7 +77,7 @@ Number Number::operator*(Number number)
 	int result = this->toTenScale() * number.toTenScale();
 	if (this->scale == number.scale)
 	{
-		return Number(Number::convert(&Number(result), scale).getNumber(), scale);
+		return Number(Number::convert(new Number(result), scale)->getNumber(), scale);
 	}
 	else {
 		return Number(result);
@@ -86,7 +88,7 @@ Number Number::operator/(Number number)
 	int result = this->toTenScale() / number.toTenScale();
 	if (this->scale == number.scale)
 	{
-		return Number(Number::convert(&Number(result), scale).getNumber(), scale);
+		return Number(Number::convert(new Number(result), scale)->getNumber(), scale);
 	}
 	else {
 		return Number(result);
